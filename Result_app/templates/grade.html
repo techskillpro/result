@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block script %}
+    <title>Semester Results</title>
+    <link rel="stylesheet" href="{% static 'list.css' %}">
+{% endblock script %}
+{% block content %}
+    <div class="containers">
+        <div class="filter-container">
+            <form method="GET" action="">
+                <input type="text" name="q" id="filterInput" placeholder="Level..." value="{{ request.GET.q }}">
+                <input type="text" name="r" id="filterInput" placeholder="Department..." value="{{ request.GET.r }}">
+                <input type="text" name="s" id="filterInput" placeholder="Semester..." value="{{ request.GET.s }}">
+                <input type="text" name="t" id="filterInput" placeholder="Session..." value="{{ request.GET.t }}">
+                <button type="submit">Filter</button>
+            </form>
+        </div>
+        <table id="dataTable">
+            {% if request.GET.q %}
+                <p style="margin-bottom: 10px;">Reload Page TO Download A New File</p>
+            {% endif %}
+            <thead>
+                <tr>
+                    <th>S/N</th>
+                    <th>Student Name</th>
+                    <th>Matric Number</th>
+                    <th>Level</th>
+                    <th>Department</th>
+                    <th>Session</th>
+                    <th>Semester</th>
+                    <th>GPA</th>
+                    <th>Remark</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for student in students %}
+                <tr>
+                    <td>{{forloop.counter}}</td>
+                    <td>{{ student.student.name }}</td>
+                    <td>{{ student.student.registration_number }}</td>
+                    <td>{{ student.level }}</td>
+                    <td>{{ student.department }}</td>
+                    <td>{{ student.session }}</td>
+                    <td>{{ student.semester }}</td>
+                    <td>{{ student.gpa }}</td>
+                    <td>{{ student.remark }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% if request.GET.q %}
+            <div class="filter-container" style="margin-top: 20px;">
+                <a class="sabio" href="{% url 'grade_export_students_excel' %}"  type="submit" >Export Excel File</a>
+                <a class="sabio" href="{% url 'grade_export_students_csv' %}" type="submit">Export CSV File</a>
+<!--                <button type="submit">Export PDF File</button>-->
+            </div>
+        {% endif %}
+    </div>
+{% endblock content %}
+

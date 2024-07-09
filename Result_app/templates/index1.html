@@ -1,0 +1,26 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block script %}
+    <title>Sessional Result</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+
+{% endblock script %}
+{% block content %}
+    <div class="containers">
+        <h1>Sessional Result</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div id="results-container" class="results-container">
+                <div class="result-field">
+                    {% for form in forms %}
+                        <div class="form-group">
+                            <label>{{ form.label}}</label>
+                            {{ form }}
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+    </div>
+{% endblock content %}

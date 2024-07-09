@@ -1,0 +1,58 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block script %}
+    <title>Student Semester Result</title>
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+    <script>
+        function addResultField() {
+            const container = document.getElementById('results-container');
+            const newField = document.createElement('div');
+            newField.classList.add('result-field');
+            newField.innerHTML = `
+                {% for form in result_form %}
+                    <div class="form-group">
+                        <label>{{ form.label}}</label>
+                        {{ form }}
+                    </div>
+                {% endfor %}
+
+                <div style="display: flex; align-items: center; justify-content: center;" class="form-group">
+                    <button type="button" class="heree btn btn-danger remove-btn" onclick="removeField(this)">Remove</button>
+                </div>
+
+            `;
+            container.appendChild(newField);
+        }
+
+        function removeField(element) {
+            element.parentElement.parentElement.remove();
+        }
+    </script>
+{% endblock script %}
+
+{% block content %}
+    <div class="containers">
+        <h1>Student Semester Result</h1>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ student_form.as_p }}
+            </div>
+            <div id="results-container" class="results-container">
+                <div class="result-field">
+                    {% for form in result_form %}
+                    <div class="form-group">
+                        <label>{{ form.label}}</label>
+                        {{ form }}
+                    </div>
+                    {% endfor %}
+                    <div style="display: flex; align-items: center; justify-content: center;" class="form-group">
+                        <button type="button" class="heree btn btn-danger remove-btn" onclick="removeField(this)">Remove</button>
+                    </div>
+                </div>
+            </div>
+            <button type="button" class="btn btn-success" onclick="addResultField()">Add another subject</button>
+            <button type="submit" class="btn btn-primary">Calculate</button>
+        </form>
+    </div>
+{% endblock %}

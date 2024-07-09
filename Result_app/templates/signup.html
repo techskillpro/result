@@ -1,0 +1,38 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Sign Up |   | </title>
+    <link rel="stylesheet" href="{% static 'register.css'%}">
+</head>
+<body>
+<div class="wrapper">
+    <h2>Registration</h2>
+    <form method="post">
+        {% csrf_token %}
+        {% for form in form %}
+            <p style="color: #cc0000 !important;">{{form.errors}}</p>
+            <div class="input-box">
+                {{form}}
+            </div>
+        {% endfor %}
+            <div class="input-box button">
+                <input type="Submit" value="Register Now">
+            </div>
+          <div class="text">
+                <h3>Have an account already? <a href="{% url 'signin' %}">Signin now</a></h3>
+          </div>
+
+    </form>
+</div>
+<script>
+    {% if messages %}
+        {% for mess in messages %}
+            alert('{{mess}}');
+        {% endfor %}
+    {% endif %}
+</script>
+</body>
+</html>

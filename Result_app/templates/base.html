@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% block script %}
+
+    {% endblock %}
+    <link rel="stylesheet" href="{% static 'base.css' %}">
+    <script>
+        {% if messages %}
+            {% for message in messages %}
+                alert('{{message}}');
+            {% endfor %}
+        {% endif %}
+    </script>
+
+</head>
+<body>
+    <div class="container">
+        <aside class="sidebar">
+            <div class="brand">
+                <h1>Admin<span>Panel</span></h1>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="{% url 'admin:index' %}">View Admin Dashboard </a></li>
+                    <li><a href="{% url 'index' %}">Add Semester Result </a></li>
+                    <li><a href="{% url 'session_result_view' %}">Add Session Result </a></li>
+                    <li><a href="{% url 'semester_result_list' %}">View Semester Result </a></li>
+                    <li><a href="{% url 'session_result_list' %}">View Session Result </a></li>
+                    {% if request.user.is_authenticated %}
+                        <li><a href="{% url 'signout' %}">Logout </a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+        </aside>
+        <main class="content">
+<!--            <section id="home" class="active">-->
+                {% block content %}
+                {% endblock %}
+<!--            </section>-->
+            <section id="about">
+                <h1>About</h1>
+                <p>This is the about section of the admin dashboard.</p>
+            </section>
+            <section id="contact">
+                <h1>Contact Us</h1>
+                <p>Here you can find the contact details.</p>
+            </section>
+            <section id="location">
+                <h1>Location</h1>
+                <p>Details about the location can be found here.</p>
+            </section>
+        </main>
+    </div>
+    <div class="hamburger-menu" onclick="toggleSidebar()">
+        <div class="bar"></div>
+        <div class="bar"></div>
+        <div class="bar"></div>
+    </div>
+    <script src="{% static 'base.js' %}"></script>
+</body>
+</html>
